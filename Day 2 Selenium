@@ -1,0 +1,136 @@
+-----TASK 1-------
+package Popups;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Assessment3 {
+
+	public static void main(String[] args) {
+		WebDriver driver = new EdgeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        
+        driver.get("https://www.Facebook.com/");
+        
+        driver.findElement(By.xpath("//span[text()='Create new account']")).click();
+        
+        WebElement name = driver.findElement(By.id("_R_1cl2p4jikacppb6amH1_"));
+        WebElement surname = driver.findElement(By.id("_R_1kl2p4jikacppb6amH1_"));
+        
+        System.out.println(name.getLocation().getY());
+        System.out.println(surname.getLocation().getY());
+        
+        if(name.getLocation().getY() == surname.getLocation().getY())
+        {
+            System.out.println(" name and Surname are aligned in same line");
+        }
+        else
+        {
+            System.out.println(" name and Surname are not aligned");
+        }
+
+	}
+
+}
+
+-------TASK 2--------
+package Popups;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Assessment4 {
+
+	public static void main(String[] args) throws InterruptedException {
+		WebDriver driver = new EdgeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        
+        driver.get("https://www.Facebook.com/");
+        
+         WebElement account = driver.findElement(By.xpath("//span[text()='Create new account']"));
+         
+         System.out.println(account.getLocation());
+         System.out.println(account.getLocation().getX());
+         System.out.println(account.getLocation().getY());
+         
+         WebElement email = driver.findElement(By.id("_R_1h6kqsqppb6amH1_"));
+         Thread.sleep(2000);
+         System.out.println(email.getDomAttribute("value"));
+         System.out.println(email.getDomProperty("value"));
+         email.sendKeys("SushmaKulkarni@gamil.com");
+         System.out.println(email.getDomProperty("value"));
+         
+         driver.findElement(By.xpath("//span[text()='Create new account']")).click();
+         
+         WebElement submit = driver.findElement(By.xpath("//span[text()='Submit']"));
+         System.out.println(submit.getSize());
+
+         System.out.println(submit.getCssValue("background-color"));
+         System.out.println(submit.getCssValue("font-size"));
+         System.out.println(submit.getCssValue("color"));
+	}
+
+}
+
+-------TASK 3----------
+package Popups;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class Assessment5 {
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+		WebDriver driver = new EdgeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement ele = driver.findElement(By.xpath("(//input[@value='Add to cart'])[2]"));
+        ele.getSize();
+        ele.click();
+        driver.findElement(By.xpath("//span[text()='Shopping cart']")).click();
+        Thread.sleep(2000);
+        WebElement ele1 = driver.findElement(By.xpath("//input[@name='removefromcart']"));
+        System.out.println(ele1.isSelected());
+        System.out.println(ele1.getRect());
+        System.out.println(ele1.getRect().getX());
+        System.out.println(ele1.getRect().getY());
+     
+        
+        driver.findElement(By.xpath("//input[@name='applydiscountcouponcode']")).click();
+        WebElement alert = driver.findElement(By.xpath("//div[@class='message']"));
+        System.out.println(alert.isDisplayed());
+        
+        WebElement ele3 = driver.findElement(By.xpath("//td[@class='product-picture']"));
+        File src = ele3.getScreenshotAs(OutputType.FILE);
+		File dest=new File("./ss/demoshop.png");
+		FileHandler.copy(src, dest);
+	}
+
+}
+
+
