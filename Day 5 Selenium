@@ -40,3 +40,103 @@ public class Assessment1Demoweb {
 		driver.findElement(By.xpath("//input[@class='button-1 login-button']")).click();
 	}
 }
+
+-------Task 2-------
+package FrameWork;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Assessment2OrangeHrm {
+
+	public static void main(String[] args) throws EncryptedDocumentException, IOException {
+		FileInputStream fis=new FileInputStream("./src/test/resources/DDT/OrangeHrm.xlsx");
+		Workbook wb = WorkbookFactory.create(fis);
+		
+		String Browser = wb.getSheet("Sheet1").getRow(1).getCell(0).getStringCellValue();
+		System.out.println(Browser);
+		String Url = wb.getSheet("Sheet1").getRow(1).getCell(1).getStringCellValue();
+		System.out.println(Url);
+		String Username = wb.getSheet("Sheet1").getRow(1).getCell(2).getStringCellValue();
+		System.out.println(Username);
+		String Password = wb.getSheet("Sheet1").getRow(1).getCell(3).getStringCellValue();
+		System.out.println(Password);
+		
+		WebDriver driver=null;
+		if(Browser.equals("Edge"))
+		{
+			driver=new EdgeDriver();
+		}
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(Url);
+		driver.findElement(By.xpath("//input[@name='username']")).sendKeys(Username);
+		driver.findElement(By.xpath("//input[@name='password']")).sendKeys(Password);
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		
+		driver.quit();
+	}
+}
+
+-----------Task3------
+package FrameWork;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.Duration;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Assessment3DemoQsp {
+
+	public static void main(String[] args) throws IOException, ParseException {
+		FileReader fir= new FileReader("./src/test/resources/DDT/Demoapp.json");
+		JSONParser jsonparser=new JSONParser();
+		Object obj=jsonparser.parse(fir);
+		JSONObject json=(JSONObject)obj;
+		String Browser = json.get("browser").toString();
+		System.out.println(Browser);
+		String url = json.get("Url").toString();
+		System.out.println(url);
+		String name = json.get("Name").toString();
+		System.out.println(name);
+		String email = json.get("Email").toString();
+		System.out.println(email);
+		String pass = json.get("Password").toString();
+		System.out.println(pass);
+		
+		WebDriver driver=null;
+		if(Browser.equals("Edge"))
+		{
+			driver=new EdgeDriver();
+		}
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(url);
+		driver.findElement(By.id("name")).sendKeys(name);
+		driver.findElement(By.id("email")).sendKeys(email);
+		driver.findElement(By.id("password")).sendKeys(pass);
+		driver.findElement(By.xpath("//a[@href='/ui/login']")).click();
+		
+		
+
+	}
+
+}
+
+
