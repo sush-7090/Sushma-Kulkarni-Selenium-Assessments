@@ -1,1 +1,375 @@
+-----/// Login page pom//------
+package Pom;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class DemoWebPage {
+	//Initialization
+	WebDriver driver;
+	
+	public DemoWebPage(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver,this);
+	}
+	//declare
+	@FindBy(id="small-searchterms")
+	private WebElement Searchtf;
+	@FindBy(css="[value='Search']")
+	private WebElement searchButton;
+	@FindBy(xpath="//a[text()='Register']")
+	private WebElement register;
+	@FindBy(xpath="//a[text()='Log in']")
+	private WebElement login;
+
+	public void getSearchtf(String value) {
+		Searchtf.sendKeys(value);
+	}
+	public void getSearchButton() {
+		searchButton.click();
+		
+	}
+	public void getRegister() {
+		 register.click();
+	}
+	public void getLogin() {
+		 login.click();
+	}
+}
+
+-----///Home page pom///--------
+package Pom;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class orgHome_page {
+	WebDriver driver;
+	
+	public orgHome_page(WebDriver driver)
+	{
+		this.driver = driver;
+		PageFactory.initElements(driver,this);
+	}
+	
+	@FindBy(xpath="//span[text()='Recruitment']")
+	private WebElement RecruitmentLink;
+
+	public void getRecruitmentLink() {
+		RecruitmentLink.click();
+	}
+}
+
+-----///Recruitment page pom//------
+package Pom;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class orgRecruitment_page {
+	WebDriver driver;
+
+	public orgRecruitment_page(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver,this);
+	}
+	
+	@FindBy(xpath="//button[text()=' Add ']")
+	private WebElement addBtn;
+	
+	@FindBy(name="firstName")
+	private WebElement FN;
+	
+	@FindBy(name="lastName")
+	private WebElement LN;
+	
+	@FindBy(xpath="//div[text()='-- Select --']")
+	private WebElement vacancy;
+	
+	@FindBy(xpath="(//input[@class='oxd-input oxd-input--active'])[2]")
+	private WebElement email;
+	
+	@FindBy(xpath="(//input[@placeholder='Type here'])[2]")
+	private WebElement contact_num;
+	
+	@FindBy(xpath="//input[@type='file']")
+	private WebElement Resume;
+	
+	@FindBy(xpath="//button[text()=' Save ']")
+	private WebElement savebtn;
+	
+	@FindBy(xpath="//a[text()='Candidates']")
+	private WebElement candidates_btn;
+	
+	public void getAddBtn() {
+		addBtn.click();
+	}
+
+	public void getFN(String value) {
+		FN.sendKeys(value);;
+	}
+
+	public void getLN(String value) {
+		LN.sendKeys(value);;
+	}
+
+	public void getVacancy() throws AWTException {
+		vacancy.click();
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public void getEmail(String value) {
+		email.sendKeys(value);;
+	}
+
+	public void getContact_num(String value) {
+		contact_num.sendKeys(value);;
+	}
+
+	public void getResume(String value) {
+		Resume.sendKeys(value);
+	}
+	
+	public void getSavebtn() {
+		savebtn.click();
+	}
+	
+	public void getCandidates_btn() {
+		candidates_btn.click();
+	}
+}
+
+----//candidate page//---
+package Pom;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class orgCadidate_page {
+WebDriver driver;
+	
+	public orgCadidate_page(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements( driver, this);
+	}
+	
+	@FindBy(xpath="(//div[text()='-- Select --'])[1]")
+	private WebElement job_title;
+	
+	@FindBy(xpath="(//div[@class='oxd-select-text-input'])[2]")
+	private WebElement vacancy;
+	
+	@FindBy(xpath="(//div[text()='-- Select --'])[3]")
+	private WebElement HR;
+	
+	@FindBy(xpath="(//div[@class='oxd-select-text-input'])[4]")
+	private WebElement status;
+	
+	@FindBy(xpath="//input[@placeholder='Type for hints...']")
+	private WebElement C_name;
+	
+	@FindBy(xpath="//button[@type='submit']")
+	private WebElement search;
+
+	public void getJob_title() throws AWTException {
+		job_title.click();
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public void getVacancy() throws AWTException {
+		vacancy.click();
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public void getHR() throws AWTException {
+		HR.click();
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public void getStatus() throws AWTException {
+		status.click();
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public void getC_name(String value) {
+		C_name.sendKeys(value);
+	}
+
+	public void getSearch() {
+		search.click();
+	}
+	
+	
+}
+
+
+---///properties file//---
+browser Edge
+url https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+username Admin
+password admin123
+
+---//xcel page//---
+firstname		lastname	Email	                    contact                        	Resume                         cname
+Sushma		Kulkarni	sushmakulkarni@gmail.com	20254874312	C:\Users\HP\Downloads\SUSHMA KULKARNI RESUME.pdf     Sushma Kulkarni
+
+---///Test Script//----
+package PomUtilites;
+
+import java.awt.AWTException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.List;
+import java.util.Properties;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import Pom.orgCadidate_page;
+import Pom.orgHome_page;
+import Pom.orgRecruitment_page;
+import Pom.orglog_in;
+
+public class orgDay8_Testcase {
+
+	public static void main(String[] args) throws IOException, InterruptedException, AWTException {
+		FileInputStream file = new FileInputStream("./src/test/resources/DDT/Orangecoomondata");
+		Properties p = new Properties();
+		p.load(file);
+		
+		String browser = p.getProperty("browser");
+		String url = p.getProperty("url");
+		String un = p.getProperty("username");
+		String pass = p.getProperty("password");
+		
+		WebDriver driver = null;
+		if(browser.equals("chrome"))
+			driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.get(url);
+		
+		//LOGIN PAGE
+		orglog_in d = new orglog_in(driver);
+		
+		d.getUserName(un);
+		d.getPassword(pass);
+		d.getLoginbtn();
+		
+		Thread.sleep(2000);
+		
+		//RECRUITMENT LINK
+		orgHome_page d1 = new orgHome_page(driver);
+		d1.getRecruitmentLink();
+		
+		//EXCEL FILE
+		FileInputStream fis = new FileInputStream("./src/test/resources/DDT/org.xlsx");
+		Workbook w = WorkbookFactory.create(fis);
+		Sheet sh = w.getSheet("sheet1");
+		Row row = sh.getRow(1);
+		
+		
+		String fn = row.getCell(0).getStringCellValue();
+		String ln = row.getCell(2).getStringCellValue();
+		String mail = row.getCell(3).getStringCellValue();
+		String num = row.getCell(4).getStringCellValue();
+		String res = row.getCell(5).getStringCellValue();
+		String cName = row.getCell(6).getStringCellValue();
+		
+		//ADD CANDIDATES
+		orgRecruitment_page d2 = new orgRecruitment_page (driver);
+		d2.getAddBtn();
+		d2.getFN(fn);
+		d2.getLN(ln);
+		Thread.sleep(2000);
+		d2.getVacancy();
+		Thread.sleep(2000);
+		d2.getEmail(mail);
+		Thread.sleep(2000);
+		d2.getContact_num(num);
+		Thread.sleep(2000);
+		d2.getResume(res);		
+		Thread.sleep(2000);
+		d2.getSavebtn();
+		Thread.sleep(2000);
+		d2.getCandidates_btn();
+		
+		//CANDIDATES
+		orgCadidate_page d3 = new orgCadidate_page(driver);
+		d3.getJob_title();
+		Thread.sleep(4000);
+		d3.getVacancy();
+		Thread.sleep(3000);
+		d3.getHR();
+		Thread.sleep(3000);
+		d3.getStatus();
+		Thread.sleep(3000);
+		d3.getC_name(cName);
+		Thread.sleep(3000);
+		d3.getSearch();
+		
+		//VERIFY;
+		List<WebElement> lis = driver.findElements(By.xpath("//div[text()='Sneha  K']"));
+		if(lis.size()>0)
+			System.out.println("record found");
+		else
+			System.out.println("no record found");
+		
+		//CLOSE THE BROWSER
+		driver.quit();
+	}
+
+
+	}
+
+
+
+
 
