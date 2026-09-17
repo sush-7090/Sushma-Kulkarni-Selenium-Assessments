@@ -1,0 +1,107 @@
+package Pom;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class SauceDemoapplication {
+
+    WebDriver driver;
+
+    public void launchbrowser() {
+
+        driver = new EdgeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+    }
+
+    public void openurl() {
+
+        driver.get("https://www.saucedemo.com/");
+    }
+
+    public void username() {
+
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+    }
+
+    public void password() {
+
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+    }
+
+    public void loginButton() {
+
+        driver.findElement(By.id("login-button")).click();
+    }
+
+    public void closebrowser() {
+
+        driver.quit();
+    }
+}
+--///sauce Executor///---
+package Pom;
+
+public class SauceExe {
+
+    SauceDemoapplication d = new SauceDemoapplication();
+
+    public void Executor(String Keyword) {
+
+        if (Keyword.equals("LAUNCH_BROWSER")) {
+
+            d.launchbrowser();
+
+        }
+        else if (Keyword.equals("OPEN_URL")) {
+
+            d.openurl();
+
+        }
+        else if (Keyword.equals("USERNAME")) {
+
+            d.username();
+
+        }
+        else if (Keyword.equals("PASSWORD")) {
+
+            d.password();
+
+        }
+        else if (Keyword.equals("LOGINBUTTON")) {
+
+            d.loginButton();
+
+        }
+        else if (Keyword.equals("CLOSE_BROWSER")) {
+
+            d.closebrowser();
+
+        }
+    }
+}
+
+--///SauceTestScript//---
+package FrameWork;
+
+import Pom.SauceExe;
+
+public class saucekeyword {
+
+    public static void main(String[] args) {
+
+        SauceExe s = new SauceExe();
+
+        s.Executor("LAUNCH_BROWSER");
+        s.Executor("OPEN_URL");
+        s.Executor("USERNAME");
+        s.Executor("PASSWORD");
+        s.Executor("LOGINBUTTON");
+        s.Executor("CLOSE_BROWSER");
+    }
+}
