@@ -1,0 +1,429 @@
+--------//SauceBaseClass//-------
+
+package BaseclassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
+public class SauceBaseClass {
+
+    public WebDriver driver;
+    public Properties p;
+
+    @BeforeClass
+    public void setup() throws IOException {
+
+        FileInputStream fis = new FileInputStream("./src/test/resources/DDT/commondata.properties");
+
+        p = new Properties();
+
+        p.load(fis);
+
+        String browser = p.getProperty("browser");
+
+        if (browser.equalsIgnoreCase("chrome")) {
+
+            driver = new ChromeDriver();
+        }
+
+        driver.manage().timeouts()
+              .implicitlyWait(Duration.ofSeconds(10));
+
+        driver.manage().window().maximize();
+
+        driver.get(p.getProperty("url"));
+
+        System.out.println("Browser launched");
+    }
+
+    @AfterClass
+    public void tearDown() {
+
+        driver.quit();
+
+        System.out.println("Browser closed");
+    }
+}
+
+-----//POM LOGIN PAGE//---------
+package SaucePomAsses;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPageSauce {
+	 WebDriver driver;
+
+	    public  LoginPageSauce(WebDriver driver) {
+
+	        this.driver = driver;
+
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(id = "user-name")
+	    private WebElement username;
+
+	    @FindBy(id = "password")
+	    private WebElement password;
+
+	    @FindBy(id = "login-button")
+	    private WebElement loginButton;
+
+	    public void enterUsername(String user) {
+
+	        username.sendKeys(user);
+	    }
+
+	    public void enterPassword(String pass) {
+
+	        password.sendKeys(pass);
+	    }
+
+	    public void clickLogin() {
+
+	        loginButton.click();
+	    }
+
+	    public void login(String user, String pass) {
+
+	        enterUsername(user);
+	        enterPassword(pass);
+	        clickLogin();
+	    }
+	}
+
+------////POM PRODUCTPAGE///---------
+package SaucePomAsses;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class ProductPageSauce {
+	  WebDriver driver;
+
+	    public ProductPageSauce(WebDriver driver) {
+
+	        this.driver = driver;
+
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(className = "title")
+	    private WebElement productsTitle;
+
+	    @FindBy(id = "add-to-cart-sauce-labs-backpack")
+	    private WebElement backpack;
+
+	    @FindBy(className = "shopping_cart_link")
+	    private WebElement cartIcon;
+
+	    public String getProductsTitle() throws InterruptedException {
+	    	 Thread.sleep(3000);
+
+	        return productsTitle.getText();
+	    }
+
+	    public void addBackpackToCart() throws InterruptedException {
+	    	 Thread.sleep(1000);
+
+	        backpack.click();
+	    }
+
+	    public String getCartCount() throws InterruptedException {
+	    	 Thread.sleep(1000);
+
+	        return driver.findElement(By.className("shopping_cart_badge")).getText();
+	    }
+
+	    public void clickCart() throws InterruptedException {
+	    	 Thread.sleep(1000);
+
+	        cartIcon.click();
+	    }
+	}
+
+---///POM CARTPAGE//----
+package SaucePomAsses;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class CartPageSauce {
+    WebDriver driver;
+
+    public CartPageSauce(WebDriver driver) {
+
+        this.driver = driver;
+
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(className = "inventory_item_name")
+    private WebElement backpackName;
+
+    @FindBy(id = "checkout")
+    private WebElement checkoutButton;
+
+    public String getBackpackName() {
+
+        return backpackName.getText();
+    }
+
+    public void clickCheckout() {
+
+        checkoutButton.click();
+    }
+}
+
+---///POM CHECKOUT PAGE///----
+package SaucePomAsses;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class CheckoutPageSauce {
+	 WebDriver driver;
+
+	    public CheckoutPageSauce(WebDriver driver) {
+
+	        this.driver = driver;
+
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(id = "first-name")
+	    private WebElement firstName;
+
+	    @FindBy(id = "last-name")
+	    private WebElement lastName;
+
+	    @FindBy(id = "postal-code")
+	    private WebElement postalCode;
+
+	    @FindBy(id = "continue")
+	    private WebElement continueButton;
+
+	    @FindBy(className = "title")
+	    private WebElement pageTitle;
+
+	    public void enterFirstName(String fname) {
+
+	        firstName.sendKeys(fname);
+	    }
+
+	    public void enterLastName(String lname) {
+
+	        lastName.sendKeys(lname);
+	    }
+
+	    public void enterPostalCode(String postal) {
+
+	        postalCode.sendKeys(postal);
+	    }
+
+	    public void clickContinue() {
+
+	        continueButton.click();
+	    }
+
+	    public String getPageTitle() {
+
+	        return pageTitle.getText();
+	    }
+
+	    public void enterDetails(String fname, String lname, String postal) {
+
+	        enterFirstName(fname);
+	        enterLastName(lname);
+	        enterPostalCode(postal);
+	        clickContinue();
+	    }
+	}
+
+---///POM CHECKOVERVIEW///----
+package SaucePomAsses;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class CheckoutOverviewPage {
+	 WebDriver driver;
+
+	    public CheckoutOverviewPage(WebDriver driver) {
+
+	        this.driver = driver;
+
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(className = "title")
+	    private WebElement overviewTitle;
+
+	    @FindBy(id = "finish")
+	    private WebElement finishButton;
+
+	    @FindBy(className = "complete-header")
+	    private WebElement successMessage;
+
+	    public String getOverviewTitle() {
+
+	        return overviewTitle.getText();
+	    }
+
+	    public void clickFinish() {
+
+	        finishButton.click();
+	    }
+
+	    public String getSuccessMessage() {
+
+	        return successMessage.getText();
+	    }
+	}
+---//TESTSCRIPT//----
+package UsingTestNG;
+
+import org.testng.annotations.Test;
+
+import BaseclassUtility.SauceBaseClass;
+import PomUtilites.ExcelUtility;
+import SaucePomAsses.CartPageSauce;
+import SaucePomAsses.CheckoutOverviewPage;
+import SaucePomAsses.CheckoutPageSauce;
+import SaucePomAsses.LoginPageSauce;
+import SaucePomAsses.ProductPageSauce;
+
+public class SauceDemoTest extends SauceBaseClass {
+
+	    @Test
+	    public void loginTest() throws InterruptedException {
+
+	        LoginPageSauce loginPage = new LoginPageSauce(driver);
+
+	        String username = p.getProperty("username");
+	        String password = p.getProperty("password");
+
+	        loginPage.login(username, password);
+
+	        ProductPageSauce productsPage = new ProductPageSauce(driver);
+
+	        String actualTitle = productsPage.getProductsTitle();
+
+	        if (actualTitle.equals("Products")) {
+	            System.out.println("PASS: Products page is displayed");
+	        } else {
+	            System.out.println("FAIL: Products page is not displayed");
+	        }
+	    }
+
+
+	    @Test(dependsOnMethods = "loginTest")
+	    public void orderPlacementTest() throws Exception {
+
+	        ProductPageSauce productsPage = new ProductPageSauce(driver);
+
+	        // Add Backpack
+	        productsPage.addBackpackToCart();
+
+	        // Verify cart contains 1 item
+	        String cartCount = productsPage.getCartCount();
+
+	        if (cartCount.equals("1")) {
+	            System.out.println("PASS: Cart contains 1 item");
+	        } else {
+	            System.out.println("FAIL: Cart does not contain 1 item");
+	        }
+
+
+	        // Open cart
+	        productsPage.clickCart();
+
+	        CartPageSauce cartPage = new CartPageSauce(driver);
+
+	        // Verify Backpack
+	        String productName = cartPage.getBackpackName();
+
+	        if (productName.equals("Sauce Labs Backpack")) {
+	            System.out.println("PASS: Sauce Labs Backpack is displayed");
+	        } else {
+	            System.out.println("FAIL: Sauce Labs Backpack is not displayed");
+	        }
+
+
+	        // Click Checkout
+	        cartPage.clickCheckout();
+
+	        CheckoutPageSauce checkoutPage = new CheckoutPageSauce(driver);
+
+	        // Get data from Excel
+	        String firstName =ExcelUtility.getExcelData("Sheet1", 1, 0);
+
+	        String lastName =ExcelUtility.getExcelData("Sheet1", 1, 1);
+
+	        String postalCode =ExcelUtility.getExcelData("Sheet1", 1, 2);
+
+	        // Enter details
+	        checkoutPage.enterDetails(firstName,lastName, postalCode);
+
+
+	        // Verify Checkout Overview
+	        String overviewTitle =
+	                checkoutPage.getPageTitle();
+
+	        if (overviewTitle.equals("Checkout: Overview")) {
+	            System.out.println(
+	                    "PASS: Checkout: Overview page is displayed");
+	        } else {
+	            System.out.println(
+	                    "FAIL: Checkout: Overview page is not displayed");
+	        }
+
+
+	        // Finish
+	        CheckoutOverviewPage overviewPage =new CheckoutOverviewPage(driver);
+
+	        overviewPage.clickFinish();
+
+
+	        // Verify success message
+	        String message = overviewPage.getSuccessMessage();
+
+	        if (message.equals("Thank you for your order!")) {
+	            System.out.println(
+	                    "PASS: Thank you for your order! is displayed");
+	        } else {
+	            System.out.println(
+	                    "FAIL: Thank you for your order! is not displayed");
+	        }
+	    }
+	}
+
+
+---///PROPERTYY FILE//---
+browser chrome
+url https://www.saucedemo.com/
+username standard_user
+password secret_sauce
+
+---///EXCEl FILE//---
+Firstname	lastname	postalcode
+sushma	kulkarni	583280
