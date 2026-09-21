@@ -1,0 +1,751 @@
+-------//Testcase 1//------
+///-------POM FILES------///
+--///(LOGIN_PAGE)-----
+package OraangeAssess;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Loginpage {
+	    WebDriver driver;
+
+	    public Loginpage(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(name="username")
+	    private WebElement username;
+
+	    @FindBy(name="password")
+	    private WebElement password;
+
+	    @FindBy(xpath="//button[@type='submit']")
+	    private WebElement loginButton;
+
+	    public void enterUsername(String user) {
+	        username.sendKeys(user);
+	    }
+
+	    public void enterPassword(String pass) {
+	        password.sendKeys(pass);
+	    }
+
+	    public void clickLogin() {
+	        loginButton.click();
+	    }
+	}
+
+---------------///RecruitmentPage////-----------
+package OraangeAssess;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Recurtimentpage {
+	    WebDriver driver;
+
+	    public Recurtimentpage(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(xpath="//span[normalize-space()='Recruitment']")
+	    private WebElement recruitment;
+
+	    @FindBy(xpath="//a[normalize-space()='Vacancies']")
+	    private WebElement vacancies;
+
+	    public void clickRecruitment() {
+	        recruitment.click();
+	    }
+
+	    public void clickVacancies() {
+	        vacancies.click();
+	    }
+	}
+
+-------////VACANCYPAGE////------
+package OraangeAssess;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class VaccaniesPage {
+	    WebDriver driver;
+
+	    public VaccaniesPage(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(xpath="//button[contains(.,'Add')]")
+	    private WebElement addButton;
+
+	    public void clickAdd() {
+	        addButton.click();
+	    }
+	}
+
+----//ADDVACANCY PAGE//------
+package OraangeAssess;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class AddVancies {
+
+	    WebDriver driver;
+
+	    public AddVancies(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(xpath="//label[text()='Vacancy Name']/following::input[1]")
+	    private WebElement vacancyName;
+
+	    @FindBy(xpath="//label[text()='Job Title']/following::div[contains(@class,'oxd-select-text')][1]")
+	    private WebElement jobTitle;
+
+	    @FindBy(xpath="//label[text()='Description']/following::textarea[1]")
+	    private WebElement description;
+
+	    @FindBy(xpath="//label[text()='Hiring Manager']/following::input[1]")
+	    private WebElement hiringManager;
+
+	    @FindBy(xpath="//label[text()='Number of Positions']/following::input[1]")
+	    private WebElement numberOfPositions;
+
+	    @FindBy(xpath="//button[@type='submit']")
+	    private WebElement saveButton;
+
+
+public void enterVacancyName(String name) {
+    vacancyName.sendKeys(name);
+}
+
+public void selectJobTitle(String title)
+{
+    Actions actions = new Actions(driver);
+
+    actions.click(jobTitle)
+           .sendKeys(Keys.ARROW_DOWN)
+           .sendKeys(Keys.ENTER)
+           .perform();
+}
+
+public void enterDescription(String desc) {
+    description.sendKeys(desc);
+}
+
+public void selectHiringManager(String manager) throws InterruptedException
+{
+	Actions actions = new Actions(driver);
+
+    actions.click(hiringManager)
+           .keyDown(Keys.CONTROL)
+           .sendKeys("a")
+           .keyUp(Keys.CONTROL)
+           .sendKeys(manager)
+           .perform();
+    Thread.sleep(1500);
+
+    actions.sendKeys(Keys.ARROW_DOWN)
+           .sendKeys(Keys.ENTER)
+           .perform();
+
+   
+}
+
+public void enterNumberOfPositions(String number) {
+    numberOfPositions.sendKeys(number);
+}
+
+public void clickSave() {
+    saveButton.click();
+}
+}
+
+-------------------//BASECLASS//-----------
+package BaseclassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+import OraangeAssess.Loginpage;
+import OraangeAssess.Logoutorg;
+
+public class BaseclassOrg {
+		public WebDriver driver;
+		String Browser;
+		String username;
+		String password;
+		String url;
+	    @BeforeSuite
+		public void Bs() {
+			System.out.println("Open databse connectivity");
+		}
+	    @BeforeTest
+	    public void BT() {
+	    	System.out.println("precondition");
+	    }
+	    @BeforeClass
+		public void Bc() throws IOException {
+	    	FileInputStream fis = new FileInputStream("./src/test/resources/DDT/Orangecoomondata");
+	        Properties p = new Properties();
+
+	        p.load(fis);
+	        
+	        Browser = p.getProperty("browser");
+	        url=p.getProperty("url");
+	        username=p.getProperty("username");
+	        password=p.getProperty("password");
+	        
+
+			if(Browser.equals("chrome"))
+			{
+				driver=new ChromeDriver();
+			}
+			if(Browser.equals("Edge"))
+			{
+				driver=new EdgeDriver();
+			}
+			if(Browser.equals("Firefox"))
+			{
+				driver=new FirefoxDriver();
+			}
+	        driver.manage().window().maximize();
+
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		}
+	    @BeforeMethod
+	    public void launchBrowser() throws IOException, InterruptedException {
+	        // Launch application
+	    	driver.get(url);
+	    	Thread.sleep(2000);
+	    	// Login
+	        Loginpage login = new Loginpage(driver);
+
+	        login.enterUsername(username);
+	        Thread.sleep(2000);
+	        login.enterPassword(password);
+
+	        login.clickLogin();
+	    	
+	    }
+	    @AfterClass
+		public void Ac() {
+			System.out.println("close the browser");
+			driver.quit();
+		}
+	
+		@AfterMethod
+		public void Am() {
+			System.out.println("logout successfull");
+			Logoutorg logout = new Logoutorg(driver);
+
+	        logout.clickUserMenu();
+	        logout.clickLogout();
+		}
+		@AfterTest
+		public void AT() {
+			System.out.println("Postcondition");
+		}
+		@AfterSuite
+		public void As() {
+			System.out.println("close database");
+		}
+		
+}
+
+
+-----------///TESTSCRIPT////-------------
+package UsingTestNG;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.testng.annotations.Test;
+
+import BaseclassUtility.BaseclassOrg;
+import OraangeAssess.AddVancies;
+import OraangeAssess.Loginpage;
+import OraangeAssess.Recurtimentpage;
+import OraangeAssess.VaccaniesPage;
+
+public class OrgangeAssess12 {
+	public class CreateVacancyTest extends BaseclassOrg {
+
+	    @Test
+	    public void createVacancyTest() throws IOException, InterruptedException {
+
+	        // Recruitment page
+	        Recurtimentpage recruitment = new Recurtimentpage(driver);
+
+	        recruitment.clickRecruitment();
+	        recruitment.clickVacancies();
+
+
+	        // Vacancies page
+	        VaccaniesPage vacancies = new VaccaniesPage(driver);
+
+	        vacancies.clickAdd();
+
+
+	        // Read Excel
+	        FileInputStream fi =new FileInputStream("./src/test/resources/DDT/orgAssExcel.xlsx");
+
+	        Workbook wb = WorkbookFactory.create(fi);
+
+	        String vacancyName =wb.getSheetAt(0).getRow(1).getCell(0).getStringCellValue();
+
+	        String jobTitle =wb.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
+
+	        String description =wb.getSheetAt(0).getRow(1).getCell(2).getStringCellValue();
+
+	        String hiringManager =wb.getSheetAt(0).getRow(1).getCell(3).getStringCellValue();
+	        
+	        String positions =String.valueOf((int) wb.getSheetAt(0).getRow(1).getCell(4).getNumericCellValue());
+
+
+	        // Add Vacancy page
+	        AddVancies addVacancy =new AddVancies(driver);
+
+	        addVacancy.enterVacancyName(vacancyName);
+	        addVacancy.selectJobTitle(jobTitle);
+	        addVacancy.enterDescription(description);
+	        addVacancy.selectHiringManager(hiringManager);
+	        addVacancy.enterNumberOfPositions(positions);
+	        addVacancy.clickSave();
+
+	        wb.close();
+	        fi.close();
+	    }
+	}
+
+}
+-------------------////PROPERTY FILE////-------------
+browser Edge
+url https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+username Admin
+password admin123
+-----------------////EXCEL FILE////-----
+VacancyName	JobTitle	Description	HiringManager	Positions
+Automation Tester	QA Engineer	Selenium Automation Testing	John  Doe	3
+
+-------------------///TESTCASE2//------------------
+------///LOGINPAGE//------
+package OraangeAssess;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Loginpage {
+	    WebDriver driver;
+
+	    public Loginpage(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(name="username")
+	    private WebElement username;
+
+	    @FindBy(name="password")
+	    private WebElement password;
+
+	    @FindBy(xpath="//button[@type='submit']")
+	    private WebElement loginButton;
+
+	    public void enterUsername(String user) {
+	        username.sendKeys(user);
+	    }
+
+	    public void enterPassword(String pass) {
+	        password.sendKeys(pass);
+	    }
+
+	    public void clickLogin() {
+	        loginButton.click();
+	    }
+	}
+----------//MYINFO PAGE//-------
+package OraangeAssess;
+
+import java.time.Duration;
+
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Myinfoclass {
+	  WebDriver driver;
+
+	    WebDriverWait wait;
+
+	    public Myinfoclass(WebDriver driver) {
+
+	        this.driver = driver;
+
+	        PageFactory.initElements(driver, this);
+
+	        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    }
+
+	    @FindBy(xpath = "//span[text()='My Info']")
+	    private WebElement myInfo;
+
+	    @FindBy(xpath = "//input[@name='firstName']")
+	    private WebElement firstName;
+
+	    @FindBy(xpath = "//input[@name='lastName']")
+	    private WebElement lastName;
+
+	    @FindBy(xpath = "//label[text()='Employee Id']/following::input[1]")
+	    private WebElement employeeId;
+
+	    @FindBy(xpath = "//button[@type='submit']")
+	    private WebElement saveButton;
+
+	    public void clickMyInfo() {
+
+	        wait.until(ExpectedConditions.elementToBeClickable(myInfo)).click();
+	    }
+
+	    public void editFirstName(String fname)
+	    {
+	        firstName.click();
+
+	        firstName.sendKeys(Keys.CONTROL, "a");
+
+	        firstName.sendKeys(fname);
+	    }
+
+	    public void editLastName(String lname)
+	    {
+	        lastName.click();
+
+	        lastName.sendKeys(Keys.CONTROL, "a");
+
+	        lastName.sendKeys(lname);
+	    }
+
+	    public void editEmployeeId(String empId)
+	    {
+	        employeeId.click();
+
+	        employeeId.sendKeys(Keys.CONTROL, "a");
+
+	        employeeId.sendKeys(empId);
+	    }
+
+	    public void clickSave() {
+
+	        saveButton.click();
+	    }
+	    
+	    public  boolean isFirstNameDisplayed() {
+
+			return firstName.isDisplayed();
+		}
+
+		public boolean isLastNameDisplayed() {
+
+			return lastName.isDisplayed();
+		}
+
+		public boolean isEmployeeIdDisplayed() {
+
+			return employeeId.isDisplayed();
+		}
+
+		// GET VALUES
+
+		public String getFirstName() {
+
+			return firstName.getAttribute("value");
+		}
+
+		public String getLastName() {
+
+			return lastName.getAttribute("value");
+		}
+
+		public String getEmployeeId() {
+
+			return employeeId.getAttribute("value");
+		}
+}
+
+-------------//BASECLASS//---
+package BaseclassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+import OraangeAssess.Loginpage;
+import OraangeAssess.Logoutorg;
+
+public class BaseclassOrg {
+		public WebDriver driver;
+		String Browser;
+		String username;
+		String password;
+		String url;
+	    @BeforeSuite
+		public void Bs() {
+			System.out.println("Open databse connectivity");
+		}
+	    @BeforeTest
+	    public void BT() {
+	    	System.out.println("precondition");
+	    }
+	    @BeforeClass
+		public void Bc() throws IOException {
+	    	FileInputStream fis = new FileInputStream("./src/test/resources/DDT/Orangecoomondata");
+	        Properties p = new Properties();
+
+	        p.load(fis);
+	        
+	        Browser = p.getProperty("browser");
+	        url=p.getProperty("url");
+	        username=p.getProperty("username");
+	        password=p.getProperty("password");
+	        
+
+			if(Browser.equals("chrome"))
+			{
+				driver=new ChromeDriver();
+			}
+			if(Browser.equals("Edge"))
+			{
+				driver=new EdgeDriver();
+			}
+			if(Browser.equals("Firefox"))
+			{
+				driver=new FirefoxDriver();
+			}
+	        driver.manage().window().maximize();
+
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		}
+	    @BeforeMethod
+	    public void launchBrowser() throws IOException, InterruptedException {
+	        // Launch application
+	    	driver.get(url);
+	    	Thread.sleep(2000);
+	    	// Login
+	        Loginpage login = new Loginpage(driver);
+
+	        login.enterUsername(username);
+	        Thread.sleep(2000);
+	        login.enterPassword(password);
+
+	        login.clickLogin();
+	    	
+	    }
+	    @AfterClass
+		public void Ac() {
+			System.out.println("close the browser");
+			driver.quit();
+		}
+	
+		@AfterMethod
+		public void Am() {
+			System.out.println("logout successfull");
+			Logoutorg logout = new Logoutorg(driver);
+
+	        logout.clickUserMenu();
+	        logout.clickLogout();
+		}
+		@AfterTest
+		public void AT() {
+			System.out.println("Postcondition");
+		}
+		@AfterSuite
+		public void As() {
+			System.out.println("close database");
+		}
+		
+}
+------///LOGOUT PAGE///--
+package OraangeAssess;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Logoutorg {
+	 WebDriver driver;
+
+	    public Logoutorg(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+
+	    @FindBy(xpath="//span[contains(@class,'oxd-userdropdown-tab')]")
+	    private WebElement userMenu;
+
+	    @FindBy(xpath="//a[text()='Logout']")
+	    private WebElement logout;
+
+	    public void clickUserMenu() {
+	        userMenu.click();
+	    }
+
+	    public void clickLogout() {
+	        logout.click();
+	    }
+	}
+
+
+--------------///PROPERTY FILE///-----
+browser Edge
+url https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+username Admin
+password admin123
+----///EXCEL FILE///---
+FirstName	lastname	Empid
+SushmaK	Kulkarni	EMP2026
+
+-------///TESTSCRIPT//--
+
+package UsingTestNG;
+
+import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import BaseclassUtility.BaseclassOrg;
+import OraangeAssess.Loginpage;
+import OraangeAssess.Logoutorg;
+import OraangeAssess.Myinfoclass;
+
+public class OrgAssesInfo12 extends BaseclassOrg  {
+	
+	 @Test
+	    public void editEmployeeTest() throws Exception {
+
+	        // Read Excel
+		 FileInputStream fi = new FileInputStream("./src/test/resources/DDT/org.xlsx");
+
+			Workbook wb = WorkbookFactory.create(fi);
+
+			String firstName =wb.getSheetAt(1).getRow(1).getCell(0).getStringCellValue();
+
+			String lastName =wb.getSheetAt(1).getRow(1).getCell(1).getStringCellValue();
+
+			String employeeId =wb.getSheetAt(1).getRow(1).getCell(2).getStringCellValue();
+
+			System.out.println("First Name = " + firstName);
+			System.out.println("Last Name = " + lastName);
+			System.out.println("Employee ID = " + employeeId);
+
+			fi.close();
+			wb.close();
+
+	        // My Info
+	        Myinfoclass myInfo = new Myinfoclass(driver);
+
+	        myInfo.clickMyInfo();
+
+
+	        // Edit employee details
+	        myInfo.editFirstName(firstName);
+
+	        myInfo.editLastName(lastName);
+
+	        myInfo.editEmployeeId(employeeId);
+
+
+	        // Save
+	        myInfo.clickSave();
+
+	 }
+	 @Test
+	 public void verifyclass() throws InterruptedException {
+		 
+	        Myinfoclass mp = new Myinfoclass(driver);
+
+	        mp.clickMyInfo();
+	        
+	        Thread.sleep(5000);
+	        
+			// VERIFY UPDATED DETAILS
+			Assert.assertEquals(mp.getFirstName(), "Sushmak");
+			Assert.assertEquals(mp.getLastName(), "Kulkarni");
+			Assert.assertEquals(mp.getEmployeeId(), "EMP2026");
+			System.out.println("verified");
+	        
+	}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
